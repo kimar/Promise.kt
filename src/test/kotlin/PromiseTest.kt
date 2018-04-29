@@ -8,7 +8,7 @@ class PromiseTest {
 
     @Test
     fun testThen() {
-        Promise<String> { resolve, reject ->
+        Promise<String> { resolve, _ ->
             resolve("OK")
         }.then {
             Assert.assertEquals("OK", it)
@@ -17,11 +17,11 @@ class PromiseTest {
 
     @Test
     fun testThenPromise() {
-        Promise<String> { resolve, reject ->
+        Promise<String> { resolve, _ ->
             resolve("OK")
         }.thenWith {
             Assert.assertEquals("OK", it)
-            return@thenWith Promise<Boolean> { resolve, reject ->
+            return@thenWith Promise<Boolean> { resolve, _ ->
                 resolve(true)
             }
         }.then {
@@ -31,16 +31,16 @@ class PromiseTest {
 
     @Test
     fun testThenThenPromise() {
-        Promise<String> { resolve, reject ->
+        Promise<String> { resolve, _ ->
             resolve("OK")
         }.thenWith {
             Assert.assertEquals("OK", it)
-            return@thenWith Promise<Boolean> { resolve, reject ->
+            return@thenWith Promise<Boolean> { resolve, _ ->
                 resolve(true)
             }
         }.thenWith {
             Assert.assertTrue(it)
-            return@thenWith Promise<Int> { resolve, reject ->
+            return@thenWith Promise<Int> { resolve, _ ->
                 resolve(42)
             }
         }.then {
@@ -50,7 +50,7 @@ class PromiseTest {
 
     @Test
     fun testFail() {
-        Promise<String> { resolve, reject ->
+        Promise<String> { _, reject ->
             reject(AnError())
         }.fail {
             Assert.assertTrue(it is AnError)
@@ -59,11 +59,11 @@ class PromiseTest {
 
     @Test
     fun testThenFail() {
-        Promise<String> { resolve, reject ->
+        Promise<String> { resolve, _ ->
             resolve("OK")
         }.thenWith {
             Assert.assertEquals("OK", it)
-            return@thenWith Promise<Boolean> { resolve, reject ->
+            return@thenWith Promise<Boolean> { _, reject ->
                 reject(AnError())
             }
         }.fail {

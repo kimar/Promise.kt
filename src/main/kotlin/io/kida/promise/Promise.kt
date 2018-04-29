@@ -5,7 +5,7 @@ typealias Resolver<T> = (
         reject: (Throwable) -> Unit
 ) -> Unit
 
-public class Promise<T>(val resolver: Resolver<T>) {
+public class Promise<out T>(private val resolver: Resolver<T>) {
 
     fun then(closure: (T) -> Unit) {
         resolver({ closure(it) }, {})
@@ -14,7 +14,7 @@ public class Promise<T>(val resolver: Resolver<T>) {
     fun <U>thenWith(closure: (T) -> Promise<U>): Promise<U> {
         var promise: Promise<U>? = null
         resolver({ promise = closure(it) }, {})
-        return Promise<U> { resolve, reject ->
+        return Promise { resolve, reject ->
             promise?.then { resolve(it)}
             promise?.fail { reject(it) }
         }
