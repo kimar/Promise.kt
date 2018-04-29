@@ -11,7 +11,7 @@ public class Promise<T>(val resolver: Resolver<T>) {
         resolver({ closure(it) }, {})
     }
 
-    fun <U>then(closure: (T) -> Promise<U>): Promise<U> {
+    fun <U>thenWith(closure: (T) -> Promise<U>): Promise<U> {
         var promise: Promise<U>? = null
         resolver({ promise = closure(it) }, {})
         return Promise<U> { resolve, reject ->

@@ -39,11 +39,11 @@ Promise<String> { resolve, reject ->
 ```kotlin
 Promise<String> { resolve, reject -> 
 	resolve(1)
-}.then<Int> { result -> 
+}.thenWith { result -> 
 	return Promise<Int> { resolve, reject -> 
 		resolve(result + 1)
 	}
-}.then<Int> { result -> 
+}.thenWith { result -> 
 	return Promise<Int> { resolve, reject -> 
 		resolve(result + 1)
 	}

@@ -19,9 +19,9 @@ class PromiseTest {
     fun testThenPromise() {
         Promise<String> { resolve, reject ->
             resolve("OK")
-        }.then<Boolean> {
+        }.thenWith {
             Assert.assertEquals("OK", it)
-            return@then Promise<Boolean> { resolve, reject ->  
+            return@thenWith Promise<Boolean> { resolve, reject ->
                 resolve(true)
             }
         }.then {
@@ -33,14 +33,14 @@ class PromiseTest {
     fun testThenThenPromise() {
         Promise<String> { resolve, reject ->
             resolve("OK")
-        }.then<Boolean> {
+        }.thenWith {
             Assert.assertEquals("OK", it)
-            return@then Promise<Boolean> { resolve, reject ->
+            return@thenWith Promise<Boolean> { resolve, reject ->
                 resolve(true)
             }
-        }.then<Int> {
+        }.thenWith {
             Assert.assertTrue(it)
-            return@then Promise<Int> { resolve, reject ->
+            return@thenWith Promise<Int> { resolve, reject ->
                 resolve(42)
             }
         }.then {
@@ -61,9 +61,9 @@ class PromiseTest {
     fun testThenFail() {
         Promise<String> { resolve, reject ->
             resolve("OK")
-        }.then<Boolean> {
+        }.thenWith {
             Assert.assertEquals("OK", it)
-            return@then Promise<Boolean> { resolve, reject ->
+            return@thenWith Promise<Boolean> { resolve, reject ->
                 reject(AnError())
             }
         }.fail {
