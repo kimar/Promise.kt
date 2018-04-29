@@ -8,7 +8,7 @@
 ## tl;dr
 A very simple Kotlin Promise library I've written, after coming up with the [same library for Swift on my iPad years ago](https://github.com/kimar/Promise.swift).
 
-Writte in just ~25 lines of code.
+Writte in just 26 lines of code.
 
 ## Usage
 
